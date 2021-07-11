@@ -13,41 +13,43 @@ const TradingHistoryPDF = ({
   headerConfig,
   styles,
 }: TradingHistoryPDFProps) => {
-  const specialHeaders = () => (
-    <View style={styles.specialHeader}>
-      <View style={{ width: "20%" }}></View>
-      <View>
-        <Text>SELL</Text>
-      </View>
-      <View>
-        <Text>BUY</Text>
-      </View>
-    </View>
-  );
-
-  const tableHeader = headerConfig.map((column) => (
-    <View key={`header-${column.dataIndex}`} style={styles.tableHeader}>
-      <Text>{column.title}</Text>
+  const tableHeaders = headerConfig.map((header) => (
+    <View
+      key={`header-${header.dataIndex}`}
+      style={{ ...styles.tableHeader, width: `${100 / headerConfig.length}%` }}
+    >
+      <Text>{header.title}</Text>
     </View>
   ));
 
   const tableBody = tradingHistory.map(
     (
-      holding: any, // TODO: remove any
+      trade: any, // TODO: remove any
       index
     ) => (
-      <View key={`row-${holding.id}-${index}`} style={styles.tableRow}>
-        {headerConfig.map((header, index) => (
-          <View
-            key={`cell-${holding.id}-${index}`}
-            style={{
-              ...styles.tableCell,
-              width: `${100 / headerConfig.length}%`,
-            }}
-          >
-            <Text>{holding[header.dataIndex]}</Text>
-          </View>
-        ))}
+      <View key={`row-${trade.id}-${index}`} style={styles.tableRow}>
+        {headerConfig.map((header, index) => {
+          let text;
+
+          if (header.dataIndex instanceof Array) {
+            const [type, dataIndex] = header.dataIndex;
+            text = trade[type][dataIndex];
+          } else {
+            text = trade[header.dataIndex];
+          }
+
+          return (
+            <View
+              key={`cell-${trade.id}-${index}`}
+              style={{
+                ...styles.tableCell,
+                width: `${100 / headerConfig.length}%`,
+              }}
+            >
+              <Text>{text}</Text>
+            </View>
+          );
+        })}
       </View>
     )
   );
@@ -55,19 +57,16 @@ const TradingHistoryPDF = ({
   return (
     <View style={styles.table}>
       <Text style={styles.header}>Trading History</Text>
-      <View style={styles.tableSpecialHeader}>
+      <View style={styles.tableHeaders}>
         <View style={{ width: "20%" }}></View>
-        <View style={styles.tableSpecialHeaderColumn}>
+        <View style={styles.tableSpecialHeader}>
           <Text>SELL</Text>
         </View>
-        <View>
+        <View style={styles.tableSpecialHeader}>
           <Text>BUY</Text>
         </View>
       </View>
-      {/* {specialHeaders && (
-        <View style={styles.specialHeaders}>{specialHeaders}</View>
-      )} */}
-      {tableHeader && <View style={styles.tableHeader}>{tableHeader}</View>}
+      {tableHeaders && <View style={styles.tableHeaders}>{tableHeaders}</View>}
       {tableBody && <View style={styles.tableBody}>{tableBody}</View>}
     </View>
   );

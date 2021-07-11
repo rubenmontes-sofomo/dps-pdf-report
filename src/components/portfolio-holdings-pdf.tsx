@@ -13,8 +13,11 @@ const PortfolioHoldingsPDF = ({
   headerConfig,
   styles,
 }: PortfolioHoldingsPDFProps) => {
-  const tableHeaders = headerConfig.map((header, index) => (
-    <View key={`header-${header.dataIndex}`} style={styles.tableHeader}>
+  const tableHeaders = headerConfig.map((header) => (
+    <View
+      key={`header-${header.dataIndex}`}
+      style={{ ...styles.tableHeader, width: `${100 / headerConfig.length}%` }}
+    >
       <Text>{header.title}</Text>
     </View>
   ));

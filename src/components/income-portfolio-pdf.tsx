@@ -24,6 +24,7 @@ export type PortfolioHolding = {
 
 export type TradingHistory = {
   id: number;
+  tradeDate: string;
   buy: {
     fundName: string;
     ticker: string;
@@ -31,7 +32,6 @@ export type TradingHistory = {
   sell: {
     fundName: string;
     ticker: string;
-    tradeDate: string;
   };
 };
 
@@ -68,6 +68,7 @@ const portFolioHoldings: PortfolioHolding[] = [
 const tradingHistory: TradingHistory[] = [
   {
     id: 3,
+    tradeDate: "03/07/2020",
     buy: {
       fundName: "Columbia Convertible",
       ticker: "PACIX",
@@ -75,7 +76,6 @@ const tradingHistory: TradingHistory[] = [
     sell: {
       fundName: "Columbia Convertible",
       ticker: "PACIX",
-      tradeDate: "03/07/2020",
     },
   },
 ];
@@ -179,8 +179,14 @@ const pdfStyles = StyleSheet.create({
     textAlign: "center",
   },
   tableHeader: {
-    width: `${100 / holdingsHeaders.length}%`,
-    padding: 5,
+    // width: `${100 / holdingsHeaders.length}%`,
+    padding: 7,
+  },
+  tableSpecialHeader: {
+    width: "40%",
+    padding: 2,
+    color: "#adadad",
+    textAlign: "center",
   },
   tableBody: {
     display: "flex",
