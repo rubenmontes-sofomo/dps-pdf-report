@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { BlobProvider } from "@react-pdf/renderer";
 import { Line } from "@ant-design/charts";
-import MyDocument from "./components/my-document";
 import IncomePortfolioPDFTemplate from "./components/income-portfolio-pdf";
 
 function App() {
